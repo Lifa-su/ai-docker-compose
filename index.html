@@ -626,6 +626,121 @@ document.addEventListener('DOMContentLoaded', () => {
   renderServicesList();
 });
 </script>
+<!-- PRO:START -->
+<style>
+.pro-section{max-width:1400px;margin:32px auto 0;padding:0 20px}
+.pro-title{font-size:.95rem;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.pro-badge{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.65rem;padding:2px 8px;border-radius:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.pro-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.pro-card{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;overflow:hidden;cursor:pointer;transition:border-color .2s}
+.pro-card:hover{border-color:var(--accent)}
+.pro-card-blur{position:absolute;inset:0;background:rgba(15,23,42,.7);backdrop-filter:blur(6px);z-index:1}
+.pro-card-lock{position:absolute;top:12px;right:12px;background:rgba(56,189,248,.15);color:var(--accent);font-size:.7rem;padding:3px 8px;border-radius:6px;font-weight:600;z-index:2}
+.pro-card-content{position:relative;z-index:0}
+.pro-card-icon{font-size:2rem;margin-bottom:10px}
+.pro-card-name{font-size:1rem;font-weight:600;color:var(--text);margin-bottom:6px}
+.pro-card-desc{font-size:.85rem;color:var(--text2);line-height:1.5}
+.pro-card-sample{margin-top:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;font-family:monospace;font-size:.78rem;color:var(--text2);line-height:1.6;white-space:pre-wrap}
+.pro-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:9999}
+.pro-modal-overlay.active{display:flex}
+.pro-modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:440px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:center;position:relative}
+.pro-modal h2{font-size:1.4rem;margin-bottom:6px;color:var(--text)}
+.pro-modal .pm-sub{color:var(--text2);font-size:.85rem;margin-bottom:20px}
+.pro-modal ul{list-style:none;text-align:left;margin:0 0 24px;padding:0}
+.pro-modal ul li{padding:8px 0;font-size:.9rem;color:var(--text2);display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+.pro-modal ul li:last-child{border-bottom:none}
+.pro-modal ul li span:first-child{color:var(--accent);font-size:1.1rem}
+.pro-modal .pm-cta{display:inline-block;width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#0f172a;font-size:1rem;font-weight:700;border:none;border-radius:10px;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.pro-modal .pm-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,189,248,.4)}
+.pro-modal .pm-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--text2);font-size:1.2rem;cursor:pointer;padding:4px}
+.pro-modal .pm-close:hover{color:var(--text)}
+</style>
+
+<section class="pro-section">
+<div class="pro-title">⚡ Pro Features <span class="pro-badge">PRO</span></div>
+<div class="pro-grid">
+  <div class="pro-card" onclick="openProModal()">
+    <div class="pro-card-blur"></div>
+    <span class="pro-card-lock">🔒 Pro</span>
+    <div class="pro-card-content">
+      <div class="pro-card-icon">🏭</div>
+      <div class="pro-card-name">Production-Ready Config</div>
+      <div class="pro-card-desc">Generate production-grade docker-compose with resource limits, logging, health checks, and rolling update strategies.</div>
+      <div class="pro-card-sample">deploy:
+  resources:
+    limits:
+      cpus: '2.0'
+      memory: 2G
+  restart_policy:
+    condition: on-failure
+    max_attempts: 3
+logging:
+  driver: json-file
+  options:
+    max-size: "10m"</div>
+    </div>
+  </div>
+  <div class="pro-card" onclick="openProModal()">
+    <div class="pro-card-blur"></div>
+    <span class="pro-card-lock">🔒 Pro</span>
+    <div class="pro-card-content">
+      <div class="pro-card-icon">🛡️</div>
+      <div class="pro-card-name">Security Hardening</div>
+      <div class="pro-card-desc">Auto-apply security best practices — read-only filesystems, non-root users, secret management, and network isolation.</div>
+      <div class="pro-card-sample">security_opt:
+  - no-new-privileges:true
+read_only: true
+user: "1000:1000"
+cap_drop:
+  - ALL
+cap_add:
+  - NET_BIND_SERVICE
+secrets:
+  - db_password</div>
+    </div>
+  </div>
+  <div class="pro-card" onclick="openProModal()">
+    <div class="pro-card-blur"></div>
+    <span class="pro-card-lock">🔒 Pro</span>
+    <div class="pro-card-content">
+      <div class="pro-card-icon">📋</div>
+      <div class="pro-card-name">Multi-Environment Templates</div>
+      <div class="pro-card-desc">Generate separate dev/staging/prod configs with environment-specific overrides and .env file templates.</div>
+      <div class="pro-card-sample"># docker-compose.prod.yml
+# Extends base with:
+# - External networks
+# - Replicas & load balancing
+# - TLS termination
+# - Monitoring stack
+# - Backup cron jobs</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="pro-modal-overlay" id="proModal" onclick="if(event.target===this)closeProModal()">
+<div class="pro-modal">
+  <button class="pm-close" onclick="closeProModal()">&times;</button>
+  <h2>🐳 Unlock Pro Docker Tools</h2>
+  <p class="pm-sub">Deploy with confidence using production-grade configurations</p>
+  <ul>
+    <li><span>✅</span> Production-ready configurations</li>
+    <li><span>✅</span> Security hardening templates</li>
+    <li><span>✅</span> Multi-environment support (dev/staging/prod)</li>
+    <li><span>✅</span> Resource limits & health checks</li>
+    <li><span>✅</span> Lifetime access, one-time payment</li>
+  </ul>
+  <a class="pm-cta" href="https://feifeicch.gumroad.com/ai-docker-compose" target="_blank" rel="noopener">Upgrade to Pro — $14</a>
+</div>
+</div>
+
+<script>
+function openProModal(){document.getElementById('proModal').classList.add('active')}
+function closeProModal(){document.getElementById('proModal').classList.remove('active')}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeProModal()});
+</script>
+<!-- PRO:END -->
+
 <!-- MONETIZE:START -->
 <script src="monetize.js"></script>
 <!-- MONETIZE:END -->
